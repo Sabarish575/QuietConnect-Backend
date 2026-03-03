@@ -57,9 +57,9 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
 
         // Redirect after login
         if (user.getUsername() == null) {
-            response.sendRedirect("http://localhost:3000/set-username");
+            response.sendRedirect("https://quiet-connect-frontend.vercel.app/set-username");
         } else {
-            response.sendRedirect("http://localhost:3000/home");
+            response.sendRedirect("https://quiet-connect-frontend.vercel.app/home");
         }
     }
 }

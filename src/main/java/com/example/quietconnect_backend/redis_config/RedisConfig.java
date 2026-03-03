@@ -28,15 +28,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Configuration
 public class RedisConfig {
 
-    @Value("${REDIS_HOST}")
-    private String redisHost;
-
-    @Value("${REDIS_PORT}")
-    private int redisPort;
-
-    @Value("${REDIS_PASSWORD}")
-    private String redisPassword;
-
     // Keep this WITHOUT @Bean to avoid breaking your Controller's JSON parsing
     public ObjectMapper jacksonMapper() {
         ObjectMapper mapper = new ObjectMapper();
@@ -54,11 +45,7 @@ public class RedisConfig {
     
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration("localhost", 6379);
-        configuration.setHostName(redisHost);
-        configuration.setPort(redisPort);
-        configuration.setPassword(RedisPassword.of(redisPassword));
-        return new LettuceConnectionFactory(configuration);
+        return new LettuceConnectionFactory();
     }
 
     @Bean

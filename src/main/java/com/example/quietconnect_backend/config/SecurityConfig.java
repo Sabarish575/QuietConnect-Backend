@@ -93,7 +93,7 @@ public class SecurityConfig {
                 .logoutSuccessHandler((request, response, authentication) -> {
                     response.setHeader(
                         "Set-Cookie",
-                        "token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax;"
+                        "token=; HttpOnly; Path=/; Max-Age=0; SameSite=None; Secure"
                     );
                     response.setStatus(HttpServletResponse.SC_OK);
                 })
@@ -110,7 +110,7 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOriginPatterns(List.of("http://localhost:3000"));
+        config.setAllowedOriginPatterns(List.of("https://quiet-connect-frontend.vercel.app"));
         config.setAllowedMethods(
             List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
         );
