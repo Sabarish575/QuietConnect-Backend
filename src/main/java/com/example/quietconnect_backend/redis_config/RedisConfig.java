@@ -43,10 +43,10 @@ public class RedisConfig {
         return mapper;
     }
     
-    @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory();
-    }
+    // @Bean
+    // public RedisConnectionFactory redisConnectionFactory() {
+    //     return new LettuceConnectionFactory();
+    // }
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
