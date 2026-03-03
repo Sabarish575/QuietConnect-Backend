@@ -25,7 +25,7 @@ public class ChatConfiguration implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/chat")
                 .setHandshakeHandler(new UserHandshakeHandler())
                 .addInterceptors(userHandShakeInterceptor)
-                .setAllowedOrigins("http://localhost:3000")
+                .setAllowedOrigins("https://quiet-connect-frontend.vercel.app")
                 .withSockJS();
     }
 
