@@ -1,12 +1,14 @@
 package com.example.quietconnect_backend.redis_config;
 import java.time.Duration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,6 +28,15 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Configuration
 public class RedisConfig {
 
+    @Value("${REDIS_HOST}")
+    private String redisHost;
+
+    @Value("${REDIS_PORT}")
+    private int redisPort;
+
+    @Value("${REDIS_PASSWORD}")
+    private String redisPassword;
+
     // Keep this WITHOUT @Bean to avoid breaking your Controller's JSON parsing
     public ObjectMapper jacksonMapper() {
         ObjectMapper mapper = new ObjectMapper();
@@ -44,6 +55,9 @@ public class RedisConfig {
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration("localhost", 6379);
+        configuration.setHostName(redisHost);
+        configuration.setPort(redisPort);
+        configuration.setPassword(RedisPassword.of(redisPassword));
         return new LettuceConnectionFactory(configuration);
     }
 
