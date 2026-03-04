@@ -11,7 +11,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import org.springframework.cache.annotation.Caching;
-
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import org.springframework.stereotype.Service;
@@ -129,13 +129,25 @@ public class UserService {
         String emailId = oAuth2User.getAttribute("email");
         String email = emailId.trim().toLowerCase();
         String googleId = oAuth2User.getAttribute("sub");
+        return repo.findByEmail(email).map(exuser->{
+            if(exuser.getGoogle_id()==null){
+                exuser.setGoogle_id(googleId);
+                return repo.save(exuser);
+            }
+            return exuser;
 
-        return repo.findByEmail(email).orElseGet(() -> {
-            User u = new User();
-            u.setEmail(email);
-            u.setGoogle_id(googleId);
-            return repo.save(u);
+        }).orElseGet(()->{
+             try {
+                User u = new User();
+                u.setEmail(email);
+                u.setGoogle_id(googleId);
+                return repo.save(u);
+            } catch (DataIntegrityViolationException e) {
+            return repo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User lookup failed after conflict"));
+            }
         });
+
     }
 
     @Caching(evict = {
