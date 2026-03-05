@@ -25,6 +25,8 @@ public class WebSocketUserInterceptorConfig implements WebSocketMessageBrokerCon
                     org.springframework.security.core.Authentication auth=SecurityContextHolder.getContext().getAuthentication();
 
                     if(auth!=null && auth.isAuthenticated()){
+
+                        System.out.println("auth is not null "+auth);
                         accessor.setUser(auth);
                     }
 

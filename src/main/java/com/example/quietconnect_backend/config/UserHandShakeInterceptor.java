@@ -55,7 +55,9 @@ public class UserHandShakeInterceptor implements HandshakeInterceptor {
         for (Cookie cookie : req.getCookies()) {
             if ("token".equals(cookie.getName())) {
                 String token = cookie.getValue();
-                String email =jwtUtil.extractEmail(token); // YOUR JWT UTIL
+                String email =jwtUtil.extractEmail(token); 
+
+                System.out.println("interceptor extracted your email"+ email);
                 
                 attributes.put("email", email.toLowerCase());
                 return true;
