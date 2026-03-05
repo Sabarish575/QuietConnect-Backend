@@ -41,23 +41,13 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
         String token = jwtUtil.generateToken(
                 user.getEmail().trim().toLowerCase()
         );
-
-        ResponseCookie resCookie = ResponseCookie.from("token", token)
-            .httpOnly(true)
-            .secure(true)
-            .path("/")
-            .maxAge(7 * 24 * 60 * 60)
-            .sameSite("None")
-            .build();
-
-        response.addHeader(HttpHeaders.SET_COOKIE, resCookie.toString());
         
         String baseUrl = "https://quiet-connect-frontend.vercel.app";
 
         if (user.getUsername() == null) {
-            response.sendRedirect(baseUrl + "/set-username");
+            response.sendRedirect(baseUrl + "/set-username?token=" + token);
         } else {
-            response.sendRedirect(baseUrl + "/home");
+            response.sendRedirect(baseUrl + "/home?token=" + token);
         }
     }
 }

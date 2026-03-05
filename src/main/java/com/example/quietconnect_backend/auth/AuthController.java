@@ -28,7 +28,6 @@ public class AuthController {
         this.userService = userService;
     }
 
-// In AuthController
 @GetMapping("/me")
 public ResponseEntity<?> me(@CookieValue(name = "token", required = false) String token) {
     if (token == null) return ResponseEntity.status(401).build();
@@ -36,7 +35,6 @@ public ResponseEntity<?> me(@CookieValue(name = "token", required = false) Strin
     String email = jwtUtil.extractEmail(token);
     User user = userService.find(email);
 
-    // Return only what the frontend needs
     Map<String, Object> response = new HashMap<>();
     response.put("email", user.getEmail());
     response.put("username", user.getUsername());
