@@ -42,24 +42,16 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
                 user.getEmail().trim().toLowerCase()
         );
 
-        boolean isLocal = request.getServerName().equals("localhost");
-
-        // Replace your old Cookie logic with this
-        ResponseCookie resCookie = ResponseCookie.from("token", token)
-            .httpOnly(true)
-            .secure(!isLocal)
-            .path("/")
-            .maxAge(7 * 24 * 60 * 60)
-            .sameSite(isLocal ? "Lax" : "None")
-            .build();
-
-        response.addHeader(org.springframework.http.HttpHeaders.SET_COOKIE, resCookie.toString());
+        String baseUrl= "https://quiet-connect-frontend.vercel.app";
+        String redirectUrl;
 
         // Redirect after login
         if (user.getUsername() == null) {
-            response.sendRedirect("https://quiet-connect-frontend.vercel.app/set-username");
+            redirectUrl = baseUrl + "/set-username?token=" + token;
         } else {
-            response.sendRedirect("https://quiet-connect-frontend.vercel.app/home");
+            redirectUrl = baseUrl + "/home?token=" + token;
         }
+
+        response.sendRedirect(redirectUrl);
     }
 }

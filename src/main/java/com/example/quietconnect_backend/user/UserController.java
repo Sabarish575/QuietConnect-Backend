@@ -10,6 +10,7 @@ import com.example.quietconnect_backend.dto.UserDto;
 import com.example.quietconnect_backend.dto.UserInfo;
 import com.example.quietconnect_backend.dto.UsernameRequest;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,16 +57,25 @@ public class UserController {
     }
     
     @PostMapping("/name")
-    public String postMethodName(@RequestBody UsernameRequest usernameReq,Authentication authentication) {
+    public ResponseEntity<String> postMethodName(
+            @RequestBody UsernameRequest usernameReq, 
+            Authentication authentication) {
 
-        if(authentication==null || !authentication.isAuthenticated()){
-            throw new RuntimeException("Unauthenticated");
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).body("Unauthenticated");
         }
 
-        String email=authentication.getName().trim().toLowerCase();
-        userService.userNameExist(email,usernameReq.getUsername(),usernameReq.getBio());
-        
-        return "Username Setted";
+        try {
+            String email = authentication.getName().trim().toLowerCase();
+            userService.userNameExist(email, usernameReq.getUsername(), usernameReq.getBio());
+            return ResponseEntity.ok("Username set successfully");
+
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(409).body("Username already taken");
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
     
     @PutMapping("/change_info")
