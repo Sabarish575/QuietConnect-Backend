@@ -26,8 +26,7 @@ public class ChatConfiguration implements WebSocketMessageBrokerConfigurer {
                 .setHandshakeHandler(new UserHandshakeHandler())
                 .addInterceptors(userHandShakeInterceptor)
                 .setAllowedOrigins("https://quiet-connect-frontend.vercel.app")
-                .withSockJS();
-    }
+                .withSockJS().setSuppressCors(false);    }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {

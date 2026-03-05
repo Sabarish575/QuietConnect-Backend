@@ -2,6 +2,7 @@ package com.example.quietconnect_backend.auth;
 
 import java.io.IOException;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -13,7 +14,6 @@ import com.example.quietconnect_backend.user.User;
 import com.example.quietconnect_backend.user.UserService;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -42,16 +42,22 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
                 user.getEmail().trim().toLowerCase()
         );
 
-        String baseUrl= "https://quiet-connect-frontend.vercel.app";
-        String redirectUrl;
+        ResponseCookie resCookie = ResponseCookie.from("token", token)
+            .httpOnly(true)
+            .secure(true)
+            .path("/")
+            .maxAge(7 * 24 * 60 * 60)
+            .sameSite("Lax")
+            .build();
 
-        // Redirect after login
+        response.addHeader(HttpHeaders.SET_COOKIE, resCookie.toString());
+        
+        String baseUrl = "https://quiet-connect-frontend.vercel.app";
+
         if (user.getUsername() == null) {
-            redirectUrl = baseUrl + "/set-username?token=" + token;
+            response.sendRedirect(baseUrl + "/set-username");
         } else {
-            redirectUrl = baseUrl + "/home?token=" + token;
+            response.sendRedirect(baseUrl + "/home");
         }
-
-        response.sendRedirect(redirectUrl);
     }
 }

@@ -16,7 +16,12 @@ public class UserHandshakeHandler extends DefaultHandshakeHandler {
             Map<String, Object> attributes) {
 
         String email = (String) attributes.get("email");
-        System.out.println("users email from userhandshake handler "+email);
+        
+        if(email!=null){
+            System.out.println("users email from userhandshake handler "+email);
         return () -> email;
+        }
+
+        return null;
     }
 }

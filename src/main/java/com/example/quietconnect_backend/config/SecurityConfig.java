@@ -86,14 +86,14 @@ public class SecurityConfig {
             .oauth2Login(oauth ->
                 oauth.successHandler(oAuthSuccessHandler)
             )
-
+            .headers(headers->headers.frameOptions(frame->frame.sameOrigin()))
             // ================== LOGOUT ==================
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessHandler((request, response, authentication) -> {
                     response.setHeader(
                         "Set-Cookie",
-                        "token=; HttpOnly; Path=/; Max-Age=0; SameSite=None; Secure"
+                        "token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax; Secure"
                     );
                     response.setStatus(HttpServletResponse.SC_OK);
                 })
