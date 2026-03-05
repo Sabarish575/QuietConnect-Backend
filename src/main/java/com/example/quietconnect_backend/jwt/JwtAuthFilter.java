@@ -62,15 +62,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 token=authHeader.substring(7);
             }
 
-            System.out.println("your token from header "+token);
         }
 
         try {
             if (token != null &&
                 SecurityContextHolder.getContext().getAuthentication() == null) {
-
-                    System.out.println("Token is received "+token);
-                    System.out.println("Is valid "+jwtUtil.isValid(token));
                 if (!jwtUtil.isValid(token)) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getWriter().write("Invalid JWT");
@@ -80,8 +76,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 String email = jwtUtil.extractEmail(token)
                                       .trim()
                                       .toLowerCase();
-                
-                System.out.println("Email extracted "+email);
 
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(

@@ -33,14 +33,14 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100)
+    @Column(length = 1000)
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "community_id", nullable = false)
     private Communities community;
 
-    @Column(length=1000)
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
 
     private LocalTime createdAt;

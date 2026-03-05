@@ -38,7 +38,7 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(length = 1000)
+    @Column(columnDefinition = "TEXT")
     private String comment;
 
     private LocalTime createdAt;

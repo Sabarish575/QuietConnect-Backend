@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import com.example.quietconnect_backend.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,13 +29,15 @@ public class Reply {
 
     @ManyToOne
     @JoinColumn(name="comment_id")
-    @JsonBackReference // avoids infinite loop when serializing Comment
+    @JsonBackReference
     private Comment comment;
 
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(columnDefinition = "TEXT")
     private String reply;
     private LocalTime createdAt;
 
