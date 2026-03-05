@@ -93,7 +93,7 @@ public class SecurityConfig {
                 .logoutSuccessHandler((request, response, authentication) -> {
                     response.setHeader(
                         "Set-Cookie",
-                        "token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax; Secure"
+                        "token=; HttpOnly; Path=/; Max-Age=0; SameSite=None; Secure"
                     );
                     response.setStatus(HttpServletResponse.SC_OK);
                 })
