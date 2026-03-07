@@ -57,7 +57,7 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
 
         System.out.println("your jwt" +token);
 
-        String redirect=user.getUsername()!=null? "/home":"/set-username";
+        String redirect=user.getUsername()!=null? "home":"set-username";
         response.sendRedirect(baseUrl + "/api/auth/exchange?token=" + tempToken + "&redirect=" + redirect);       
     }
 }
