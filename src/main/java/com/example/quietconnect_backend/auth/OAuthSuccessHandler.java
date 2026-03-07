@@ -27,7 +27,7 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
     private final UserService service;
     private final JwtUtil jwtUtil;
     private final UserRepository repo;
-    private RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
 
     public OAuthSuccessHandler(UserService service, JwtUtil jwtUtil,UserRepository repo,RedisTemplate redisTemplate) {
         this.service = service;
