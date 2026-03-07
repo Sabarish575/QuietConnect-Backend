@@ -41,7 +41,7 @@ public class ChatController {
     public ResponseEntity<List<UserDto>> getMethodName(Authentication authentication) {
         List<UserDto> ans=chatService.getChatFriend(authentication.getName());
         if(ans==null || ans.isEmpty()){
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(List.of());
         }
         return ResponseEntity.ok().body(ans);   
     }
