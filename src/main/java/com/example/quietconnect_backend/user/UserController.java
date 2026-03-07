@@ -9,7 +9,12 @@ import com.example.quietconnect_backend.dto.UserCardDto;
 import com.example.quietconnect_backend.dto.UserDto;
 import com.example.quietconnect_backend.dto.UserInfo;
 import com.example.quietconnect_backend.dto.UsernameRequest;
+import com.example.quietconnect_backend.jwt.JwtUtil;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -30,6 +35,9 @@ public class UserController {
 
 
     private final UserService userService;
+
+    @Autowired
+    private final JwtUtil jwtUtil;
 
     @GetMapping("/username")
     public UpdateProfile getName(Authentication authentication) {
@@ -52,8 +60,9 @@ public class UserController {
         return userService.getInfo(email);
     }
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService,JwtUtil jwtUtil) {
         this.userService = userService;
+        this.jwtUtil=jwtUtil;
     }
     
     @PostMapping("/name")
@@ -121,9 +130,6 @@ public class UserController {
     public PostStatDto getUserStat(Authentication authentication) {
         return userService.getPostStatDto(authentication.getName().trim().toLowerCase());
     }
-    
-    
-    
     
     
     

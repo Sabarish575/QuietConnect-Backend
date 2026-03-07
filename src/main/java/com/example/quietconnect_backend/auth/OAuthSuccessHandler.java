@@ -1,7 +1,10 @@
 package com.example.quietconnect_backend.auth;
 
 import java.io.IOException;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.quietconnect_backend.jwt.JwtUtil;
 import com.example.quietconnect_backend.user.User;
+import com.example.quietconnect_backend.user.UserRepository;
 import com.example.quietconnect_backend.user.UserService;
 
 import jakarta.servlet.ServletException;
@@ -22,10 +26,14 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserService service;
     private final JwtUtil jwtUtil;
+    private final UserRepository repo;
+    private RedisTemplate redisTemplate;
 
-    public OAuthSuccessHandler(UserService service, JwtUtil jwtUtil) {
+    public OAuthSuccessHandler(UserService service, JwtUtil jwtUtil,UserRepository repo,RedisTemplate redisTemplate) {
         this.service = service;
         this.jwtUtil = jwtUtil;
+        this.repo=repo;
+        this.redisTemplate=redisTemplate;
     }
 
     @Override
@@ -44,10 +52,11 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
         
         String baseUrl = "https://quiet-connect-frontend.vercel.app";
 
-        if (user.getUsername() == null) {
-            response.sendRedirect(baseUrl + "/set-username?token=" + token);
-        } else {
-            response.sendRedirect(baseUrl + "/home?token=" + token);
-        }
+        String tempToken=UUID.randomUUID().toString();
+        redisTemplate.opsForValue().set("temp:" + tempToken,token,30,TimeUnit.SECONDS);
+
+        String redirect=user.getUsername()!=null? "/home":"/set-username";
+        response.sendRedirect(baseUrl + "/set-username?token=" + tempToken + "&redirect=" + redirect);
+        
     }
 }

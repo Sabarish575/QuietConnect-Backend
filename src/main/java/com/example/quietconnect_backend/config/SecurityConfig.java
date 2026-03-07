@@ -70,7 +70,7 @@ public class SecurityConfig {
                     "/user/**",
                     "/topic/**",
                     "/queue/**","/private-message",
-                    "/presence/**","/auth/**"
+                    "/presence/**","/auth/**","/authExchange"
                 ).permitAll()
                 .requestMatchers("/api/**","/getFriend","/getOldchat/**").authenticated()
                 .anyRequest().authenticated()
@@ -86,19 +86,7 @@ public class SecurityConfig {
             .oauth2Login(oauth ->
                 oauth.successHandler(oAuthSuccessHandler)
             )
-            .headers(headers->headers.frameOptions(frame->frame.sameOrigin()))
-            // ================== LOGOUT ==================
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessHandler((request, response, authentication) -> {
-                    response.setHeader(
-                        "Set-Cookie",
-                        "token=; HttpOnly; Path=/; Max-Age=0; SameSite=None; Secure"
-                    );
-                    response.setStatus(HttpServletResponse.SC_OK);
-                })
-                .permitAll()
-            );
+            .headers(headers->headers.frameOptions(frame->frame.sameOrigin()));
 
         return http.build();
     }
