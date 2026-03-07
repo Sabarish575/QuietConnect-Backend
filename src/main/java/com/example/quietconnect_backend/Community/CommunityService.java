@@ -163,7 +163,7 @@ public class CommunityService {
             .findByCommunitiesIdAndUserId(communityId, user.getId())
             .orElseThrow(() -> new RuntimeException("User is not following"));
         communityMemberRepo.delete(comMem);
-        return "unFollowed";
+        return "unfollowed";
     }
 
     //follow
