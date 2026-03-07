@@ -55,8 +55,9 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
         String tempToken=UUID.randomUUID().toString();
         redisTemplate.opsForValue().set("temp:" + tempToken,token,30,TimeUnit.SECONDS);
 
+        System.out.println("your jwt" +token);
+
         String redirect=user.getUsername()!=null? "/home":"/set-username";
-        response.sendRedirect(baseUrl + "/set-username?token=" + tempToken + "&redirect=" + redirect);
-        
+        response.sendRedirect(baseUrl + "/set-username?token=" + tempToken + "&redirect=" + redirect);       
     }
 }
