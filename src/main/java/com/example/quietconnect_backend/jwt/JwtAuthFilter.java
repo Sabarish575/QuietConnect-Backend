@@ -64,6 +64,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         }
 
+        System.out.println("from auth filter this is your token generated "+ token);
+
         try {
             if (token != null &&
                 SecurityContextHolder.getContext().getAuthentication() == null) {

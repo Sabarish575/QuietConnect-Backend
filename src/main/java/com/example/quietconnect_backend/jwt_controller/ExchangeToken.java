@@ -23,6 +23,8 @@ public class ExchangeToken {
     public ResponseEntity<?> exchange(@RequestParam String token) {
         Object value=redisTemplate.opsForValue().get("temp:" + token);
 
+        System.out.println("this is your token "+value);
+
         if(value==null){
             return ResponseEntity.status(401).body("Invalid or expired token");
         }
