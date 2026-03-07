@@ -70,6 +70,8 @@ public class UserController {
             @RequestBody UsernameRequest usernameReq, 
             Authentication authentication) {
 
+                System.out.println("your authentication "+authentication);
+
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(401).body("Unauthenticated");
         }
