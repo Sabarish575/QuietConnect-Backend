@@ -148,11 +148,12 @@ public class CommunityController {
 
 
     @PostMapping("/joinandunjoin/{id}")
-    public String togglefollow(@PathVariable Long id,Authentication authentication) {
+    public ResponseEntity<String> togglefollow(@PathVariable Long id,Authentication authentication) {
 
         String email=authentication.getName().trim().toLowerCase();
+        String response=service.toggleFollow(id, email);
 
-        return service.toggleFollow(id, email);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/check/{id}")
