@@ -35,8 +35,6 @@ public class HelperFunctions {
         Cipher cipher=Cipher.getInstance(algo);
         cipher.init(Cipher.ENCRYPT_MODE, key,iv);
         byte[] cipherText=cipher.doFinal(input.getBytes());
-        System.out.println("byte g "+Arrays.toString(cipherText));
-        System.out.println("cool your cipher g "+cipherText);
         return Base64.getEncoder().encodeToString(cipherText);
     }
     public static String decrypt(String algo,String cipherText, SecretKey key,GCMParameterSpec iv) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException{
@@ -45,7 +43,6 @@ public class HelperFunctions {
         cipher.init(Cipher.DECRYPT_MODE, key,iv);
         byte[] plainText=cipher.doFinal(
             Base64.getDecoder().decode(cipherText));
-        System.out.println("cool your plain g "+plainText);
         return new String(plainText);
     }
 

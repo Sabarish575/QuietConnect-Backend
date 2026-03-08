@@ -25,7 +25,6 @@ public class ChatStompController {
 
         @GetMapping("/presence/online")
     public Set<String> getOnlineUsers() {
-        System.out.println("helllllllo");
         Set<String> res=tracker.getOnlineUsers();
         return res;
     }

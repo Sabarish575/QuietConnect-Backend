@@ -57,7 +57,6 @@ public class CommunityController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CommunityDetails> communityDetails(@PathVariable Long id) {
-        System.out.println("id "+id);
         CommunityDetails comD=service.getDetails(id);
         if(comD!=null){
             return ResponseEntity.ok(comD);

@@ -69,7 +69,6 @@ public class PostService {
 
     public boolean isMember(Long comId,String email){
 
-        System.out.println("your com id and email"+comId+" "+email);
         User user=userRepository.findByEmail(email).orElseThrow(()->new RuntimeException("user not found"));
         Communities com=communityRepository.findById(comId).orElseThrow(()->new RuntimeException("Community not found"));
 
@@ -204,7 +203,6 @@ public UpdatePostDto updatePost(Long postId, EditPostDto editPostDto, String ema
     @Cacheable(value = "getCommunityPosts",key ="#communityId+ ':' + #pageable.pageNumber + ':' + #pageable.pageSize" )
     public RestPage<PostDto> getPost(Pageable pageable, Long communityId) {
 
-        System.out.println("db hit from getpost for community related posts");
         
         Communities com = communityRepository.findById(communityId)
             .orElseThrow(() -> new RuntimeException("Community not found"));

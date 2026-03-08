@@ -49,9 +49,6 @@ public class UserHandShakeInterceptor implements HandshakeInterceptor {
 
         try{
             String email=jwtUtil.extractEmail(token);
-
-            System.out.println("your extracted email "+ email);
-
             attributes.put("email", email.toLowerCase());
             return true;
         }

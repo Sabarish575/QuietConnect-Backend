@@ -70,7 +70,6 @@ public class UserController {
             @RequestBody UsernameRequest usernameReq, 
             Authentication authentication) {
 
-                System.out.println("your authentication "+authentication);
 
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(401).body("Unauthenticated");
@@ -100,7 +99,7 @@ public class UserController {
 
     @GetMapping("/user-data/{id}")
     public UserDto getMethodName(@PathVariable Long id) {
-        System.out.println("from chat request "+id);
+
         return userService.finduser(id);
     }
 
@@ -112,8 +111,6 @@ public class UserController {
 
     @PostMapping("/addBattery")
     public void addScore(@RequestBody Integer score,Authentication authentication) {
-    
-        System.out.println("this is my score "+score);
         String email=authentication.getName().toLowerCase().trim();
         userService.addBattery(email, score);
     }
