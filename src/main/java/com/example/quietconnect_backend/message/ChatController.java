@@ -32,7 +32,7 @@ public class ChatController {
     private ChatService chatService;
 
     @GetMapping("/getOldchat/{receiverId}")
-    public List<ChatContentDto> getOldChat(Authentication auth,@PathVariable Long receiverId) throws Exception {
+    public List<ChatContentDto>  getOldChat(Authentication auth,@PathVariable Long receiverId) throws Exception {
         
         return chatService.getAllMessage(auth.getName(), receiverId);
     }
